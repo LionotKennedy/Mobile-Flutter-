@@ -1,0 +1,27 @@
+name: application
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  http: ^1.2.2  # Vérifiez la dernière version sur pub.dev
+  shared_preferences: ^2.0.15
+  curved_navigation_bar: ^1.0.3  # Ajoutez cette ligne pour la dépendance
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+assets:
+ - lib/images/
+  
