@@ -97,14 +97,6 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
 // import 'package:flutter/material.dart';
 // import 'package:application/components/modal_piste/piste_modal.dart'; // Assurez-vous que le chemin est correct
 // import 'package:application/services/piste_service.dart'; // Assurez-vous que le chemin est correct
@@ -217,9 +209,6 @@
 //     );
 //   }
 // }
-
-
-
 
 // import 'package:flutter/material.dart';
 // import 'package:application/components/modal_piste/piste_modal.dart'; // Assurez-vous que le chemin est correct
@@ -364,8 +353,6 @@
 //   }
 // }
 
-
-
 import 'package:flutter/material.dart';
 import 'package:application/components/modal_piste/piste_modal.dart'; // Assurez-vous que le chemin est correct
 import 'package:application/components/modal_piste/update_modal.dart'; // Assurez-vous que le chemin est correct
@@ -506,7 +493,8 @@ class _HomeState extends State<Home> {
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete),
-                          color: Colors.red, // Couleur de l'icône de suppression
+                          color:
+                              Colors.red, // Couleur de l'icône de suppression
                           onPressed: () {
                             _confirmDeletePiste(pistes[index]['_id']);
                           },
@@ -527,5 +515,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-
