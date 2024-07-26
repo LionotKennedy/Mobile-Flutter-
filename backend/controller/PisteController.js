@@ -83,16 +83,47 @@ const editPiste = async (req, res) => {
 // ############################## ENDING #################################//
 
 // ############################## UPDATING #################################//
+// const updatePiste = async (req, res) => {
+//   const pisteId = req.params.pisteId;
+//   try {
+//     const { pisteName, pisteStatus } = req.body;
+//     const piste = await Piste.findById(pisteId);
+//     // if (piste.Piste)
+//     await piste.updateOne({ $set: req.body });
+//     res.status(200).json({
+//       status: 200,
+//       message: "Updated",
+//       data: piste,
+//     });
+//   } catch (error) {
+//     res.status(400).json({
+//       status: 400,
+//       message: error.message,
+//     });
+//   }
+// };
+
 const updatePiste = async (req, res) => {
   const pisteId = req.params.pisteId;
   try {
     const { pisteName, pisteStatus } = req.body;
     const piste = await Piste.findById(pisteId);
-    // if (piste.Piste)
-    await piste.updateOne({ $set: req.body });
+
+    if (!piste) {
+      return res.status(404).json({
+        status: 404,
+        message: 'Piste not found',
+      });
+    }
+
+    piste.pisteName = pisteName;
+    piste.pisteStatus = pisteStatus;
+
+    await piste.save();
+
     res.status(200).json({
       status: 200,
-      message: "Updated",
+      message: 'Updated',
       data: piste,
     });
   } catch (error) {
@@ -102,6 +133,8 @@ const updatePiste = async (req, res) => {
     });
   }
 };
+
+
 // ############################## ENDING #################################//
 
 // ############################## DELETING #################################//
