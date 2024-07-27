@@ -1,20 +1,21 @@
 
+
+
+
 import 'package:flutter/material.dart';
-import 'package:application/services/vol_service.dart'; // Assure-toi d'importer le service que tu vas créer
+// import 'package:application/services/vol_service.dart'; // Assure-toi d'importer le service que tu vas créer
 import 'package:intl/intl.dart'; // Assurez-vous d'importer la bibliothèque intl
 
-class VolModal extends StatefulWidget {
+class HoraireModal extends StatefulWidget {
   final List<dynamic> pistes;
 
-  const VolModal({super.key, required this.pistes});
+  const HoraireModal({super.key, required this.pistes});
 
   @override
-  _VolModalState createState() => _VolModalState();
+  _HoraireModalState createState() => _HoraireModalState();
 }
 
-class _VolModalState extends State<VolModal> {
-  final TextEditingController _numeroVolController = TextEditingController();
-  final TextEditingController _compagnieController = TextEditingController();
+class _HoraireModalState extends State<HoraireModal> {
   DateTime? _heureArriveePrevue;
   DateTime? _heureDepartPrevue;
   String? selectedStatut;
@@ -73,7 +74,7 @@ class _VolModalState extends State<VolModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Ajouter un Vol',
+              'Ajouter un Horaires',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
@@ -81,20 +82,7 @@ class _VolModalState extends State<VolModal> {
               ),
             ),
             const SizedBox(height: 20),
-            TextFormField(
-              controller: _numeroVolController,
-              decoration: const InputDecoration(
-                labelText: 'Numéro de vol',
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _compagnieController,
-              decoration: const InputDecoration(
-                labelText: 'Compagnie aérienne',
-              ),
-            ),
-            const SizedBox(height: 20),
+
             TextButton(
               onPressed: () => _selectDateTime(context, true),
               child: Text(
@@ -163,41 +151,11 @@ class _VolModalState extends State<VolModal> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final numVol = _numeroVolController.text;
-                    final compagnieAerienne = _compagnieController.text;
+
                     final heureArriveePrevue = _heureArriveePrevue?.toIso8601String();
                     final heureDepartPrevue = _heureDepartPrevue?.toIso8601String();
                     final status = selectedStatut;
                     final pisteAssignee = selectedPisteId;
-
-                    if (numVol.isNotEmpty &&
-                        compagnieAerienne.isNotEmpty &&
-                        heureArriveePrevue != null &&
-                        heureDepartPrevue != null &&
-                        status != null &&
-                        pisteAssignee != null) {
-                      final response = await VolService.createVol(
-                          numVol,
-                          compagnieAerienne,
-                          heureArriveePrevue,
-                          heureDepartPrevue,
-                          status,
-                          pisteAssignee);
-                      if (response['success']) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Vol added successfully!')),
-                        );
-                        Navigator.pop(context, true); // Retourne true si ajouté avec succès
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(response['message'])),
-                        );
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
-                      );
-                    }
                   },
                   child: const Text('Save'),
                 ),

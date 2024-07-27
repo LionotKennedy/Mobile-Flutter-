@@ -38,6 +38,7 @@ class VolService {
     }
   }
 
+  // ############################## GETTING #################################//
   static Future<List<dynamic>> getVol() async {
     var url = Uri.parse('http://10.0.2.2:6789/vol/readVol');
     try {
@@ -51,10 +52,11 @@ class VolService {
       return [];
     }
   }
+  // ############################## ENDING #################################//
 
   // ############################## DELETING #################################//
   static Future<Map<String, dynamic>> deleteVol(String volId) async {
-    var url = Uri.parse('http://10.0.2.2:6789/vol/deleteVol/volId');
+    var url = Uri.parse('http://10.0.2.2:6789/vol/deleteVol/$volId');
     try {
       var response = await http.delete(url);
       if (response.statusCode == 200) {
@@ -71,7 +73,8 @@ class VolService {
   }
   // ############################## ENDING #################################//
 
-    static Future<Map<String, dynamic>> getVolById(String volId) async {
+  // ############################## EDIING #################################//
+  static Future<Map<String, dynamic>> getVolById(String volId) async {
     var url = Uri.parse('http://10.0.2.2:6789/vol/editVol/$volId');
     try {
       var response = await http.get(url);
@@ -84,7 +87,9 @@ class VolService {
       throw Exception('Failed to connect to the server: $e');
     }
   }
+  // ############################## ENDING #################################//
 
+  // ############################## UPDATING #################################//
   static Future<Map<String, dynamic>> updateVol(
     String volId,
     String numVol,
@@ -121,5 +126,5 @@ class VolService {
       };
     }
   }
-
+  // ############################## ENDING #################################//
 }
