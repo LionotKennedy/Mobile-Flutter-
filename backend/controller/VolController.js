@@ -88,6 +88,7 @@ const editVol = async (req, res) => {
       numVol: vol.numVol,
       compagnieAerienne: vol.compagnieAerienne,
       heureArriveePrevue: vol.heureArriveePrevue,
+      heureDepartPrevue: vol.heureDepartPrevue,
       status: vol.status,
       pisteAssignee: vol.pisteAssignee,
       volId: vol._id,
