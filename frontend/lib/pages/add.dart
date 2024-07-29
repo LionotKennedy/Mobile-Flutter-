@@ -1,336 +1,10 @@
-// import 'package:flutter/material.dart';
-// import 'package:application/components/modal_horaire/horaire_modal.dart';
-// import 'package:application/services/piste_service.dart'; // Assurez-vous que le chemin est correct
-
-// class AddPage extends StatefulWidget {
-//   const AddPage({super.key});
-
-//   @override
-//   AddPageState createState() => AddPageState();
-// }
-
-// class AddPageState extends State<AddPage> {
-//   List<dynamic> pistes = [];
-//   List<dynamic> heurs = []; // Pour stocker les vols ajoutés
-
-//    @override
-//   void initState() {
-//     super.initState();
-//     _fetchPistes();
-//   }
-
-//   Future<void> _fetchPistes() async {
-//     List<dynamic> fetchedPistes = await PisteService.getPistes();
-//     // print(pistes);
-//     print(fetchedPistes);
-//     setState(() {
-//       pistes = fetchedPistes;
-//     });
-//   }
-
-//   void _showVolModal() async {
-//     final result = await showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(40),
-//           ),
-//           child: HoraireModal(pistes: pistes),
-//         );
-//       },
-//     );
-
-//     if (result == true) {
-//       // _fetchVols(); // Recharger la liste des vols après ajout
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Add"),
-//       ),
-//       body: const Center(
-//         child: Text("Add Page Coucou"),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _showVolModal,
-//         child: const Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:application/components/modal_horaire/horaire_modal.dart';
-// import 'package:application/services/piste_service.dart'; // Assurez-vous que le chemin est correct
-// import 'package:application/services/service_horaire.dart'; // Ajoutez l'import pour HoraireService
-
-// class AddPage extends StatefulWidget {
-//   const AddPage({super.key});
-
-//   @override
-//   AddPageState createState() => AddPageState();
-// }
-
-// class AddPageState extends State<AddPage> {
-//   List<dynamic> pistes = [];
-//   List<dynamic> horaires = []; // Pour stocker les horaires ajoutés
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _fetchPistes();
-//     _fetchHoraires(); // Récupérer les horaires au démarrage
-//   }
-
-//   Future<void> _fetchPistes() async {
-//     List<dynamic> fetchedPistes = await PisteService.getPistes();
-//     setState(() {
-//       pistes = fetchedPistes;
-//     });
-//   }
-
-
-//   Future<void> _fetchHoraires() async {
-//   List<dynamic> fetchedHoraires = await HoraireService.getHoraire();
-//   print('Fetched horaires: $fetchedHoraires'); // Ajoutez ceci pour déboguer
-//   setState(() {
-//     horaires = fetchedHoraires;
-//   });
-// }
-
-//   void _showHoraireModal() async {
-//     final result = await showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(40),
-//           ),
-//           child: HoraireModal(pistes: pistes),
-//         );
-//       },
-//     );
-
-//     if (result == true) {
-//       _fetchHoraires(); // Recharger la liste des horaires après ajout
-//     }
-//   }
-
-//   // @override
-//   // Widget build(BuildContext context) {
-//   //   return Scaffold(
-//   //     appBar: AppBar(
-//   //       title: const Text("Add"),
-//   //     ),
-//   //     body: Column(
-//   //       children: [
-//   //         const Center(
-//   //           child: Text("Add Page Coucou"),
-//   //         ),
-//   //         Expanded(
-//   //           child: ListView.builder(
-//   //             itemCount: horaires.length,
-//   //             itemBuilder: (context, index) {
-//   //               final horaire = horaires[index];
-//   //               return ListTile(
-//   //                 title: Text('Piste: ${horaire['pisteID']}'),
-//   //                 subtitle: Text('Heure Début: ${horaire['heureDebut']}\nHeure Fin: ${horaire['heureFin']}'),
-//   //                 trailing: Text('Vol: ${horaire['volID']}'),
-//   //               );
-//   //             },
-//   //           ),
-//   //         ),
-//   //       ],
-//   //     ),
-//   //     floatingActionButton: FloatingActionButton(
-//   //       onPressed: _showHoraireModal,
-//   //       child: const Icon(Icons.add),
-//   //     ),
-//   //   );
-//   // }
-
-
-//   @override
-// Widget build(BuildContext context) {
-//   return Scaffold(
-//     appBar: AppBar(
-//       title: const Text("Add"),
-//     ),
-//     body: Column(
-//       children: [
-//         const Center(
-//           child: Text("Add Page Coucou"),
-//         ),
-//         Expanded(
-//           child: horaires.isEmpty
-//               ? const Center(child: Text("No horaires available"))
-//               : ListView.builder(
-//                   itemCount: horaires.length,
-//                   itemBuilder: (context, index) {
-//                     final horaire = horaires[index];
-//                     return ListTile(
-//                       title: Text('Piste: ${horaire['pisteID']}'),
-//                       subtitle: Text('Heure Début: ${horaire['heureDebut']}\nHeure Fin: ${horaire['heureFin']}'),
-//                       trailing: Text('Vol: ${horaire['volID']}'),
-//                     );
-//                   },
-//                 ),
-//         ),
-//       ],
-//     ),
-//     floatingActionButton: FloatingActionButton(
-//       onPressed: _showHoraireModal,
-//       child: const Icon(Icons.add),
-//     ),
-//   );
-// }
-
-// }
-
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:application/components/modal_horaire/horaire_modal.dart';
-// import 'package:application/services/piste_service.dart'; // Assurez-vous que le chemin est correct
-// import 'package:application/services/service_horaire.dart'; // Ajoutez l'import pour HoraireService
-
-// class AddPage extends StatefulWidget {
-//   const AddPage({super.key});
-
-//   @override
-//   AddPageState createState() => AddPageState();
-// }
-
-// class AddPageState extends State<AddPage> {
-//   List<dynamic> pistes = [];
-//   List<dynamic> horaires = []; // Pour stocker les horaires ajoutés
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _fetchPistes();
-//     _fetchHoraires(); // Récupérer les horaires au démarrage
-//   }
-
-//   Future<void> _fetchPistes() async {
-//     List<dynamic> fetchedPistes = await PisteService.getPistes();
-//     setState(() {
-//       pistes = fetchedPistes;
-//     });
-//   }
-
-//   Future<void> _fetchHoraires() async {
-//     List<dynamic> fetchedHoraires = await HoraireService.getHoraire();
-//     print('Fetched horaires: $fetchedHoraires'); // Ajoutez ceci pour déboguer
-//     setState(() {
-//       horaires = fetchedHoraires;
-//     });
-//   }
-
-//   String _getPisteName(String pisteID) {
-//     final piste = pistes.firstWhere(
-//       (piste) => piste['_id'] == pisteID,
-//       orElse: () => {'nom': 'Unknown Piste'},
-//     );
-//     return piste['nom'] ?? 'Unknown Piste'; // Assurez-vous que 'nom' est la clé correcte
-//   }
-
-//   String _getVolNumber(String volID) {
-//     // Ajoutez une liste ou méthode similaire pour obtenir les vols si vous ne l'avez pas
-//     // Exemple :
-//     // final vol = vols.firstWhere((vol) => vol['_id'] == volID, orElse: () => {'numeroVol': 'Unknown Vol'});
-//     // return vol['numeroVol'] ?? 'Unknown Vol';
-
-//     return 'Unknown Vol'; // Remplacez ceci par la logique pour obtenir le numéro de vol
-//   }
-
-//   void _showHoraireModal() async {
-//     final result = await showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(40),
-//           ),
-//           child: HoraireModal(pistes: pistes),
-//         );
-//       },
-//     );
-
-//     if (result == true) {
-//       _fetchHoraires(); // Recharger la liste des horaires après ajout
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Add"),
-//       ),
-//       body: Column(
-//         children: [
-//           const Center(
-//             child: Text("Add Page Coucou"),
-//           ),
-//           Expanded(
-//             child: horaires.isEmpty
-//                 ? const Center(child: Text("No horaires available"))
-//                 : ListView.builder(
-//                     itemCount: horaires.length,
-//                     itemBuilder: (context, index) {
-//                       final horaire = horaires[index];
-//                       return ListTile(
-//                         title: Text('Piste: ${_getPisteName(horaire['pisteID'])}'),
-//                         subtitle: Text('Heure Début: ${horaire['heureDebut']}\nHeure Fin: ${horaire['heureFin']}'),
-//                         trailing: Text('Vol: ${_getVolNumber(horaire['volID'])}'),
-//                       );
-//                     },
-//                   ),
-//           ),
-//         ],
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _showHoraireModal,
-//         child: const Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:application/components/modal_horaire/horaire_modal.dart';
-import 'package:application/services/piste_service.dart';
+import 'package:application/components/modal_horaire/update_horaire.dart'; // Assurez-vous que le chemin est correct
+import 'package:application/services/piste_service.dart'; // Assurez-vous que le chemin est correct
+import 'package:application/services/vol_service.dart'; // Assurez-vous que le chemin est correct
 import 'package:application/services/service_horaire.dart'; // Ajoutez l'import pour HoraireService
+import 'package:intl/intl.dart'; // Assurez-vous d'importer la bibliothèque intl
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -341,6 +15,7 @@ class AddPage extends StatefulWidget {
 
 class AddPageState extends State<AddPage> {
   List<dynamic> pistes = [];
+  List<dynamic> vols = [];
   List<dynamic> horaires = []; // Pour stocker les horaires ajoutés
 
   @override
@@ -348,12 +23,22 @@ class AddPageState extends State<AddPage> {
     super.initState();
     _fetchPistes();
     _fetchHoraires(); // Récupérer les horaires au démarrage
+    _fetchVols();
   }
 
   Future<void> _fetchPistes() async {
     List<dynamic> fetchedPistes = await PisteService.getPistes();
+    // print(fetchedPistes);
     setState(() {
       pistes = fetchedPistes;
+    });
+  }
+
+  Future<void> _fetchVols() async {
+    List<dynamic> fetchedVols = await VolService.getVol();
+    // print(fetchedPistes);
+    setState(() {
+      vols = fetchedVols;
     });
   }
 
@@ -368,13 +53,16 @@ class AddPageState extends State<AddPage> {
   String _getPisteName(String pisteID) {
     final piste = pistes.firstWhere(
       (piste) => piste['_id'] == pisteID,
-      orElse: () => {'nom': 'Unknown Piste'},
+      orElse: () => {'pisteName': 'Unknown Piste'},
     );
-    return piste['nom'] ?? 'Unknown Piste'; // Assurez-vous que 'nom' est la clé correcte
+    return piste['pisteName'] ??
+        'Unknown Piste'; // Assurez-vous que 'nom' est la clé correcte
   }
 
   String _getVolNumber(String volID) {
-    return 'Unknown Vol'; // Remplacez ceci par la logique pour obtenir le numéro de vol
+    final vol = vols.firstWhere((vol) => vol['_id'] == volID,
+        orElse: () => {'numVol': 'Unknown Vol'});
+    return vol['numVol'] ?? 'Unknown Vol';
   }
 
   void _showHoraireModal() async {
@@ -395,6 +83,78 @@ class AddPageState extends State<AddPage> {
     }
   }
 
+  // ############################## DELETING #################################//
+  Future<void> _confirmDeleteHoraire(String hourId) async {
+    bool? confirmDelete = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: const Text('Are you sure you want to delete this vol?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Annuler la suppression
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Confirmer la suppression
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmDelete == true) {
+      _deleteHoraire(hourId);
+      print(hourId);
+    }
+  }
+
+  Future<void> _deleteHoraire(String hourId) async {
+    final response = await HoraireService.deleteHoraire(hourId);
+    if (response['success']) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Vol deleted successfully')),
+      );
+      _fetchHoraires(); // Recharger la liste des vols après suppression
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(response['message'])),
+      );
+    }
+  }
+
+  // ############################## ENDING #################################//
+
+  // ############################## UPDATING #################################//
+  void _showUpdateModal(String hourId) async {
+    final result = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: UpdateHoraireModal(
+            hourId: hourId,
+            vols: vols,
+            pistes: pistes,
+          ),
+        );
+      },
+    );
+
+    if (result == true) {
+      _fetchHoraires(); // Actualise la liste si une piste a été modifiée
+    }
+  }
+
+  // ############################## ENDING #################################//
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -414,9 +174,35 @@ class AddPageState extends State<AddPage> {
                     itemBuilder: (context, index) {
                       final horaire = horaires[index];
                       return ListTile(
-                        title: Text('Piste: ${_getPisteName(horaire['pisteID'])}'),
-                        subtitle: Text('Heure Début: ${horaire['heureDebut']}\nHeure Fin: ${horaire['heureFin']}'),
-                        trailing: Text('Vol: ${_getVolNumber(horaire['volID'])}'),
+                        title: Text('Vol: ${_getVolNumber(horaire['volID'])}'),
+                        subtitle: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                'Piste: ${_getPisteName(horaire['pisteID'])}\nHeure Début: ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse(horaire['heureDebut']))}\nHeure Fin: ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse(horaire['heureFin']))}\n'),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              color:
+                                  Colors.blue, // Couleur de l'icône d'édition
+                              onPressed: () {
+                                _showUpdateModal(horaires[index]['_id']);
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              color: Colors
+                                  .red, // Couleur de l'icône de suppression
+                              onPressed: () {
+                                _confirmDeleteHoraire(horaires[index]['_id']);
+                              },
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),

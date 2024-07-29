@@ -1,25 +1,26 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:application/services/vol_service.dart';
+import 'package:application/services/service_horaire.dart';
 
-class UpdateVolModal extends StatefulWidget {
-  final String volId;
+class UpdateHoraireModal extends StatefulWidget {
+  final String hourId;
   final List<dynamic> pistes;
+  final List<dynamic> vols;
 
-  const UpdateVolModal({super.key, required this.volId, required this.pistes});
+  const UpdateHoraireModal(
+      {super.key,
+      required this.hourId,
+      required this.pistes,
+      required this.vols});
 
   @override
-  _UpdateVolModalState createState() => _UpdateVolModalState();
+  _UpdateHoraireModalState createState() => _UpdateHoraireModalState();
 }
 
-class _UpdateVolModalState extends State<UpdateVolModal> {
-  final TextEditingController _numeroVolController = TextEditingController();
-  final TextEditingController _compagnieController = TextEditingController();
-  DateTime? _heureArriveePrevue;
-  DateTime? _heureDepartPrevue;
-  String? selectedStatut;
+class _UpdateHoraireModalState extends State<UpdateHoraireModal> {
+  DateTime? _heureDebut;
+  DateTime? _heureFin;
+  String? selectedVolId;
   String? selectedPisteId;
 
   @override
@@ -29,18 +30,16 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
   }
 
   Future<void> _fetchVolData() async {
-    var volData = await VolService.getVolById(widget.volId);
+    var horaireData = await HoraireService.getHoraireById(widget.hourId);
     setState(() {
-      _numeroVolController.text = volData['numVol'] ?? '';
-      _compagnieController.text = volData['compagnieAerienne'] ?? '';
-      _heureArriveePrevue = volData['heureArriveePrevue'] != null
-          ? DateTime.parse(volData['heureArriveePrevue'])
+      _heureDebut = horaireData['heureDebut'] != null
+          ? DateTime.parse(horaireData['heureDebut'])
           : null;
-      _heureDepartPrevue = volData['heureDepartPrevue'] != null
-          ? DateTime.parse(volData['heureDepartPrevue'])
+      _heureFin = horaireData['heureFin'] != null
+          ? DateTime.parse(horaireData['heureFin'])
           : null;
-      selectedStatut = volData['status'] ?? '';
-      selectedPisteId = volData['pisteAssignee'] ?? '';
+      selectedVolId = horaireData['volID'] ?? '';
+      selectedPisteId = horaireData['pisteID'] ?? '';
     });
   }
 
@@ -61,7 +60,7 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
       if (pickedTime != null) {
         setState(() {
           if (isArrival) {
-            _heureArriveePrevue = DateTime(
+           _heureDebut = DateTime(
               pickedDate.year,
               pickedDate.month,
               pickedDate.day,
@@ -69,7 +68,7 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
               pickedTime.minute,
             );
           } else {
-            _heureDepartPrevue = DateTime(
+            _heureFin = DateTime(
               pickedDate.year,
               pickedDate.month,
               pickedDate.day,
@@ -105,60 +104,46 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
               ),
             ),
             const SizedBox(height: 20),
-            TextFormField(
-              controller: _numeroVolController,
-              decoration: const InputDecoration(
-                labelText: 'Numéro de vol',
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _compagnieController,
-              decoration: const InputDecoration(
-                labelText: 'Compagnie aérienne',
-              ),
-            ),
-            const SizedBox(height: 20),
             TextButton(
               onPressed: () => _selectDateTime(context, true),
               child: Text(
-                _heureArriveePrevue == null
+                _heureDebut == null
                     ? 'Sélectionner l\'heure d\'arrivée prévue'
-                    : 'Heure d\'arrivée prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_heureArriveePrevue!)}',
+                    : 'Heure d\'arrivée prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_heureDebut!)}',
               ),
             ),
             const SizedBox(height: 20),
             TextButton(
               onPressed: () => _selectDateTime(context, false),
               child: Text(
-                _heureDepartPrevue == null
+                _heureFin == null
                     ? 'Sélectionner l\'heure de départ prévue'
-                    : 'Heure de départ prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_heureDepartPrevue!)}',
+                    : 'Heure de départ prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_heureFin!)}',
               ),
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(
-              value: selectedStatut,
-              items: ['en vol', 'atterri', 'retardé', 'annulé']
-                  .map((String value) {
+              value: selectedVolId,
+              items: widget.vols.map<DropdownMenuItem<String>>((dynamic vol) {
                 return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
+                  value: vol['_id'],
+                  child: Text(vol['numVol']),
                 );
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
-                  selectedStatut = newValue;
+                  selectedVolId = newValue;
                 });
               },
               decoration: const InputDecoration(
-                labelText: 'Statut',
+                labelText: 'Numero de vol',
               ),
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(
               value: selectedPisteId,
-              items: widget.pistes.map<DropdownMenuItem<String>>((dynamic piste) {
+              items:
+                  widget.pistes.map<DropdownMenuItem<String>>((dynamic piste) {
                 return DropdownMenuItem<String>(
                   value: piste['_id'],
                   child: Text(piste['pisteName']),
@@ -185,30 +170,25 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final numVol = _numeroVolController.text;
-                    final compagnieAerienne = _compagnieController.text;
-                    final heureArriveePrevue = _heureArriveePrevue?.toIso8601String();
-                    final heureDepartPrevue = _heureDepartPrevue?.toIso8601String();
-                    final status = selectedStatut;
-                    final pisteAssignee = selectedPisteId;
+                    final heureDebut = _heureDebut?.toIso8601String();
+                    final heureFin = _heureFin?.toIso8601String();
+                    final volID = selectedVolId;
+                    final pisteID = selectedPisteId;
 
-                    if (numVol.isNotEmpty &&
-                        compagnieAerienne.isNotEmpty &&
-                        heureArriveePrevue != null &&
-                        heureDepartPrevue != null &&
-                        status != null &&
-                        pisteAssignee != null) {
-                      final response = await VolService.updateVol(
-                          widget.volId,
-                          numVol,
-                          compagnieAerienne,
-                          heureArriveePrevue,
-                          heureDepartPrevue,
-                          status,
-                          pisteAssignee);
+                    if (heureDebut != null &&
+                        heureFin != null &&
+                        volID != null &&
+                        pisteID != null) {
+                      final response = await HoraireService.updateHoraire(
+                          widget.hourId,
+                          pisteID,
+                          heureDebut,
+                          heureFin,
+                          volID);
                       if (response['success']) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Vol updated successfully!')),
+                          const SnackBar(
+                              content: Text('Vol updated successfully!')),
                         );
                         Navigator.pop(context, true);
                       } else {
@@ -220,6 +200,10 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Please fill all fields')),
                       );
+                      // print(heureDebut);
+                      // print(heureFin);
+                      // print(volID);
+                      // print(pisteID);
                     }
                   },
                   child: const Text('Save'),
@@ -232,4 +216,3 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
     );
   }
 }
-

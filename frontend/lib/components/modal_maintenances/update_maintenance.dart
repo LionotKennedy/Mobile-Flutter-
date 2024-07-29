@@ -1,46 +1,45 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:application/services/vol_service.dart';
+import 'package:application/services/maintenance_service.dart';
 
-class UpdateVolModal extends StatefulWidget {
-  final String volId;
+class UpdateMaintenanceModal extends StatefulWidget {
+  final String maintId;
   final List<dynamic> pistes;
 
-  const UpdateVolModal({super.key, required this.volId, required this.pistes});
+  const UpdateMaintenanceModal(
+      {super.key, required this.maintId, required this.pistes});
 
   @override
-  _UpdateVolModalState createState() => _UpdateVolModalState();
+  _UpdateMaintenanceModalState createState() => _UpdateMaintenanceModalState();
 }
 
-class _UpdateVolModalState extends State<UpdateVolModal> {
-  final TextEditingController _numeroVolController = TextEditingController();
-  final TextEditingController _compagnieController = TextEditingController();
-  DateTime? _heureArriveePrevue;
-  DateTime? _heureDepartPrevue;
-  String? selectedStatut;
+class _UpdateMaintenanceModalState extends State<UpdateMaintenanceModal> {
+  final TextEditingController _descriptionController = TextEditingController();
+  DateTime? _dateDebut;
+  DateTime? _dateFin;
+  String? selectedType;
   String? selectedPisteId;
 
   @override
   void initState() {
     super.initState();
-    _fetchVolData();
+    _fetchMaintenanceData();
   }
 
-  Future<void> _fetchVolData() async {
-    var volData = await VolService.getVolById(widget.volId);
+  Future<void> _fetchMaintenanceData() async {
+    var maintenanceData =
+        await MaintenanceService.getMaintenanceById(widget.maintId);
+    print(widget.maintId);
     setState(() {
-      _numeroVolController.text = volData['numVol'] ?? '';
-      _compagnieController.text = volData['compagnieAerienne'] ?? '';
-      _heureArriveePrevue = volData['heureArriveePrevue'] != null
-          ? DateTime.parse(volData['heureArriveePrevue'])
+      _descriptionController.text = maintenanceData['description'] ?? '';
+      _dateDebut = maintenanceData['dateDebut'] != null
+          ? DateTime.parse(maintenanceData['dateDebut'])
           : null;
-      _heureDepartPrevue = volData['heureDepartPrevue'] != null
-          ? DateTime.parse(volData['heureDepartPrevue'])
+      _dateFin = maintenanceData['dateFin'] != null
+          ? DateTime.parse(maintenanceData['dateFin'])
           : null;
-      selectedStatut = volData['status'] ?? '';
-      selectedPisteId = volData['pisteAssignee'] ?? '';
+      selectedType = maintenanceData['typeMaintenance'] ?? '';
+      selectedPisteId = maintenanceData['pisteID'] ?? '';
     });
   }
 
@@ -61,7 +60,7 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
       if (pickedTime != null) {
         setState(() {
           if (isArrival) {
-            _heureArriveePrevue = DateTime(
+            _dateDebut = DateTime(
               pickedDate.year,
               pickedDate.month,
               pickedDate.day,
@@ -69,7 +68,7 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
               pickedTime.minute,
             );
           } else {
-            _heureDepartPrevue = DateTime(
+            _dateFin = DateTime(
               pickedDate.year,
               pickedDate.month,
               pickedDate.day,
@@ -106,41 +105,33 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
             ),
             const SizedBox(height: 20),
             TextFormField(
-              controller: _numeroVolController,
+              controller: _descriptionController,
               decoration: const InputDecoration(
-                labelText: 'Numéro de vol',
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _compagnieController,
-              decoration: const InputDecoration(
-                labelText: 'Compagnie aérienne',
+                labelText: 'Description de maintenance',
               ),
             ),
             const SizedBox(height: 20),
             TextButton(
               onPressed: () => _selectDateTime(context, true),
               child: Text(
-                _heureArriveePrevue == null
+                _dateDebut == null
                     ? 'Sélectionner l\'heure d\'arrivée prévue'
-                    : 'Heure d\'arrivée prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_heureArriveePrevue!)}',
+                    : 'Heure d\'arrivée prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_dateDebut!)}',
               ),
             ),
             const SizedBox(height: 20),
             TextButton(
               onPressed: () => _selectDateTime(context, false),
               child: Text(
-                _heureDepartPrevue == null
+                _dateFin == null
                     ? 'Sélectionner l\'heure de départ prévue'
-                    : 'Heure de départ prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_heureDepartPrevue!)}',
+                    : 'Heure de départ prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_dateFin!)}',
               ),
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(
-              value: selectedStatut,
-              items: ['en vol', 'atterri', 'retardé', 'annulé']
-                  .map((String value) {
+              value: selectedType,
+              items: ['programmée', 'urgence'].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -148,17 +139,18 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
-                  selectedStatut = newValue;
+                  selectedType = newValue;
                 });
               },
               decoration: const InputDecoration(
-                labelText: 'Statut',
+                labelText: 'Type de maintenance',
               ),
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(
               value: selectedPisteId,
-              items: widget.pistes.map<DropdownMenuItem<String>>((dynamic piste) {
+              items:
+                  widget.pistes.map<DropdownMenuItem<String>>((dynamic piste) {
                 return DropdownMenuItem<String>(
                   value: piste['_id'],
                   child: Text(piste['pisteName']),
@@ -185,30 +177,30 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final numVol = _numeroVolController.text;
-                    final compagnieAerienne = _compagnieController.text;
-                    final heureArriveePrevue = _heureArriveePrevue?.toIso8601String();
-                    final heureDepartPrevue = _heureDepartPrevue?.toIso8601String();
-                    final status = selectedStatut;
-                    final pisteAssignee = selectedPisteId;
+                    final dateDebut = _dateDebut?.toIso8601String();
+                    final dateFin = _dateFin?.toIso8601String();
+                    final typeMaintenance = selectedType;
+                    final pisteID = selectedPisteId;
+                    final description = _descriptionController.text;
 
-                    if (numVol.isNotEmpty &&
-                        compagnieAerienne.isNotEmpty &&
-                        heureArriveePrevue != null &&
-                        heureDepartPrevue != null &&
-                        status != null &&
-                        pisteAssignee != null) {
-                      final response = await VolService.updateVol(
-                          widget.volId,
-                          numVol,
-                          compagnieAerienne,
-                          heureArriveePrevue,
-                          heureDepartPrevue,
-                          status,
-                          pisteAssignee);
+                    if (description.isNotEmpty &&
+                        dateDebut != null &&
+                        dateFin != null &&
+                        typeMaintenance != null &&
+                        pisteID != null) {
+                      final response =
+                          await MaintenanceService.updateMaintenance(
+                        widget.maintId,
+                        pisteID,
+                        typeMaintenance,
+                        dateDebut,
+                        dateFin,
+                        description,
+                      );
                       if (response['success']) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Vol updated successfully!')),
+                          const SnackBar(
+                              content: Text('Vol updated successfully!')),
                         );
                         Navigator.pop(context, true);
                       } else {
@@ -220,6 +212,12 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Please fill all fields')),
                       );
+                      // print(widget.maintId);
+                      // print(pisteID);
+                      // print(typeMaintenance);
+                      // print(dateDebut);
+                      // print(dateFin);
+                      // print(description);
                     }
                   },
                   child: const Text('Save'),
@@ -232,4 +230,3 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
     );
   }
 }
-

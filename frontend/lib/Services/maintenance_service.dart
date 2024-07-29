@@ -1,31 +1,36 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class HoraireService {
+class MaintenanceService {
   // ############################## CREATING #################################//
-  static Future<Map<String, dynamic>> createHoraire(
+  static Future<Map<String, dynamic>> createMaintenance(
     String pisteID,
-    String heureDebut,
-    String heureFin,
-    String volID,
+    String typeMaintenance,
+    String dateDebut,
+    String dateFin,
+    String description,
   ) async {
-    var url = Uri.parse('http://10.0.2.2:6789/time/createHoraire');
+    var url = Uri.parse('http://10.0.2.2:6789/settings/createMaint');
     try {
       var response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'pisteID': pisteID,
-          'heureDebut': heureDebut,
-          'heureFin': heureFin,
-          'volID': volID,
+          'typeMaintenance': typeMaintenance,
+          'dateDebut': dateDebut,
+          'dateFin': dateFin,
+          'description': description,
         }),
       );
 
       if (response.statusCode == 200) {
-        return {'success': true, 'message': 'Horaire created successfully'};
+        return {
+          'success': true,
+          'message': 'Maintenances created successfully'
+        };
       } else {
-        return {'success': false, 'message': 'Failed to create horaire'};
+        return {'success': false, 'message': 'Failed to create Maintenances'};
       }
     } catch (e) {
       return {
@@ -37,9 +42,9 @@ class HoraireService {
   // ############################## ENDING #################################//
 
   // ############################## GETTING #################################//
-  static Future<List<dynamic>> getHoraire() async {
+  static Future<List<dynamic>> getMaintenance() async {
     var url = Uri.parse(
-        'http://10.0.2.2:6789/time/readHoraire'); // Remplacez par l'URL correcte
+        'http://10.0.2.2:6789/settings/readMaint'); // Remplacez par l'URL correcte
     try {
       var response = await http.get(url);
       if (response.statusCode == 200) {
@@ -56,8 +61,8 @@ class HoraireService {
   // ############################## ENDING #################################//
 
   // ############################## DELETING #################################//
-  static Future<Map<String, dynamic>> deleteHoraire(String hourId) async {
-    var url = Uri.parse('http://10.0.2.2:6789/time/deleteHoraire/$hourId');
+  static Future<Map<String, dynamic>> deleteMaintenance(String maintId) async {
+    var url = Uri.parse('http://10.0.2.2:6789/settings/deleteMaint/$maintId');
     try {
       var response = await http.delete(url);
       if (response.statusCode == 200) {
@@ -75,8 +80,8 @@ class HoraireService {
   // ############################## ENDING #################################//
 
   // ############################## EDIING #################################//
-  static Future<Map<String, dynamic>> getHoraireById(String hourId) async {
-    var url = Uri.parse('http://10.0.2.2:6789/time/editHoraire/$hourId');
+  static Future<Map<String, dynamic>> getMaintenanceById(String maintId) async {
+    var url = Uri.parse('http://10.0.2.2:6789/settings/editMaint/$maintId');
     try {
       var response = await http.get(url);
       if (response.statusCode == 200) {
@@ -91,30 +96,31 @@ class HoraireService {
   // ############################## ENDING #################################//
 
   // ############################## UPDATING #################################//
-  static Future<Map<String, dynamic>> updateHoraire(
-    String hourId,
-    String pisteID,
-    String heureDebut,
-    String heureFin,
-    String volID,
-  ) async {
-    var url = Uri.parse('http://10.0.2.2:6789/time/updateHoraire/$hourId');
+  static Future<Map<String, dynamic>> updateMaintenance(
+      String maintId,
+      String pisteID,
+      String typeMaintenance,
+      String dateDebut,
+      String dateFin,
+      String description) async {
+    var url = Uri.parse('http://10.0.2.2:6789/settings/updateMaint/$maintId');
     try {
       var response = await http.put(
         url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'pisteID': pisteID,
-          'heureDebut': heureDebut,
-          'heureFin': heureFin,
-          'volID': volID,
+          'typeMaintenance': typeMaintenance,
+          'dateDebut': dateDebut,
+          'dateFin': dateFin,
+          'description': description,
         }),
       );
 
       if (response.statusCode == 200) {
-        return {'success': true, 'message': 'Horaire updated successfully'};
+        return {'success': true, 'message': 'Maintenance updated successfully'};
       } else {
-        return {'success': false, 'message': 'Failed to update horaire'};
+        return {'success': false, 'message': 'Failed to update Maintenance'};
       }
     } catch (e) {
       return {
