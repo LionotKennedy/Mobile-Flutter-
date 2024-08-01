@@ -19,10 +19,10 @@ class NotificationService {
       if (response.statusCode == 200) {
         return {
           'success': true,
-          'message': 'Maintenances created successfully'
+          'message': 'Notification created successfully'
         };
       } else {
-        return {'success': false, 'message': 'Failed to create Maintenances'};
+        return {'success': false, 'message': 'Failed to create notification'};
       }
     } catch (e) {
       return {
@@ -47,7 +47,8 @@ class NotificationService {
   }
 
   static Future<Map<String, dynamic>> deleteNotification(String notiId) async {
-    var url = Uri.parse('http://10.0.2.2:6789/notification/deleteNotif/$notiId');
+    var url =
+        Uri.parse('http://10.0.2.2:6789/notification/deleteNotif/$notiId');
     try {
       var response = await http.delete(url);
       if (response.statusCode == 200) {
@@ -98,11 +99,34 @@ class NotificationService {
       if (response.statusCode == 200) {
         return {
           'success': true,
-          'message': 'Maintenances created successfully'
+          'message': 'Notification updated successfully'
         };
-      } else {
-        return {'success': false, 'message': 'Failed to create Maintenances'};
       }
+       else {
+        return {
+          'success': false,
+          'message': 'Failed to updated Notification'
+          };
+      }
+      // else {
+      //   return {
+      //     'success': false,
+      //     'message': 'Failed to update Notification',
+      //     'type': type,
+      //     'message': message,
+      //     'dateHeure': dateHeure,
+      //   };
+      // }
+
+      // else {
+      //   return {
+      //     'success': false,
+      //     'message': 'Failed to update Notification',
+      //     'type': type,
+      //     'message': message,
+      //     'dateHeure': dateHeure,
+      //   };
+      // }
     } catch (e) {
       return {};
     }

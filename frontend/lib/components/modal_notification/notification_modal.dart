@@ -8,6 +8,7 @@ class NotificationModal extends StatefulWidget {
   const NotificationModal({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _NotificationModalState createState() => _NotificationModalState();
 }
 
@@ -26,6 +27,7 @@ class _NotificationModalState extends State<NotificationModal> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay.now(),
       );
@@ -128,14 +130,17 @@ class _NotificationModalState extends State<NotificationModal> {
                         dateHeure,
                       );
                       if (response['success']) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content:
                                   Text('Notification added successfully!')),
                         );
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context,
                             true); // Retourne true si ajouté avec succès
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(response['message'])),
                         );
