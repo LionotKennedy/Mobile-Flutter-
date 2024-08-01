@@ -82,7 +82,7 @@ class NotificationService {
   }
 
   static Future<Map<String, dynamic>> updateNotification(
-      String type, String message, String dateHeure, String notiId) async {
+      String notiId, String type, String message, String dateHeure) async {
     var url =
         Uri.parse('http://10.0.2.2:6789/notification/updateNotif/$notiId');
     try {
@@ -101,12 +101,8 @@ class NotificationService {
           'success': true,
           'message': 'Notification updated successfully'
         };
-      }
-       else {
-        return {
-          'success': false,
-          'message': 'Failed to updated Notification'
-          };
+      } else {
+        return {'success': false, 'message': 'Failed to updated Notification'};
       }
       // else {
       //   return {

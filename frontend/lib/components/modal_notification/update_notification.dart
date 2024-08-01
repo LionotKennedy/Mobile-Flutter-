@@ -152,10 +152,10 @@ class _UpdateNotificationModalState extends State<UpdateNotificationModal> {
                         message,
                         dateHeure,
                       );
-                      print(widget.notiId);
-                      print(type);
-                      print(message);
-                      print(dateHeure);
+                        print(widget.notiId);
+                        print(type);
+                        print(message);
+                        print(dateHeure);
                       if (response['success']) {
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(

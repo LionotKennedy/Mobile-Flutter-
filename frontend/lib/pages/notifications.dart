@@ -57,11 +57,13 @@ class NotificationPageState extends State<NotificationsPage> {
   Future<void> _deleteNotification(String notiId) async {
     final response = await NotificationService.deleteNotification(notiId);
     if (response['success']) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Vol deleted successfully')),
       );
      _fetchNotification(); // Recharger la liste des vols après suppression
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(response['message'])),
       );
