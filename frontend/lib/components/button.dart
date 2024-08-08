@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
   final Function()? onTap;
- const Button({super.key, required this.onTap});
+  const Button({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +15,22 @@ class Button extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
           // color: Colors.black,
-          gradient: const LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color.fromARGB(255, 223, 3, 201),
-                Color.fromARGB(255, 5, 12, 212),
-              ]),
+          // color: const Color.fromARGB(255, 35, 157, 165),
+          color: const Color.fromARGB(255, 21, 27, 77),
+          // color: const Color.fromARGB(255, 68, 57, 57),
+          // gradient: const LinearGradient(
+          //     begin: Alignment.topRight,
+          //     end: Alignment.bottomLeft,
+          //     colors: [
+          //       Color.fromARGB(255, 223, 3, 201),
+          //       Color.fromARGB(255, 5, 12, 212),
+          //     ]),
 
           borderRadius: BorderRadius.circular(8),
         ),
         child: const Center(
           child: Text(
-            "Sign In",
+            "Se connecter",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

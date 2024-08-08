@@ -1,5 +1,3 @@
-
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:application/pages/home.dart';
@@ -23,6 +21,7 @@ class NavBar extends StatefulWidget {
       required this.email});
 
   @override
+  // ignore: library_private_types_in_public_api
   _NavBarState createState() => _NavBarState();
 }
 
@@ -36,16 +35,16 @@ class _NavBarState extends State<NavBar> {
     bool? confirmLogout = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Logout Confirmation'),
-        content: const Text('Are you sure you want to log out?'),
+        title: const Text('⚠ Deconnexion'),
+        content: const Text('Êtes-vous sûr de vouloir quiter ?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: const Text('Annuler'),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Logout'),
+            child: const Text('Deconnecter'),
           ),
         ],
       ),
@@ -56,8 +55,10 @@ class _NavBarState extends State<NavBar> {
 
       if (result['success']) {
         // Rediriger vers la page de login
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacementNamed(context, LoginPage.id);
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Logout Failed: ${result['message']}')),
         );
@@ -71,8 +72,8 @@ class _NavBarState extends State<NavBar> {
       Home(username: widget.username),
       const MessagePage(),
       const AddPage(),
-      const NotificationsPage(),
       const PersonalPage(),
+      const NotificationsPage(),
     ];
 
     return Scaffold(
@@ -81,7 +82,7 @@ class _NavBarState extends State<NavBar> {
           crossAxisAlignment: CrossAxisAlignment.start, // Alignement à gauche
           children: [
             Text(
-              "Welcome, ${widget.fullName}",
+              "Bienvenue, ${widget.fullName}",
               style: const TextStyle(
                 fontSize: 20, // Ajustez la taille selon vos besoins
               ),
@@ -105,15 +106,20 @@ class _NavBarState extends State<NavBar> {
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
         backgroundColor: Colors.transparent,
-        buttonBackgroundColor: const Color.fromARGB(255, 82, 39, 176),
-        color: Colors.purple,
+        // buttonBackgroundColor: const Color.fromARGB(255, 82, 39, 176),
+        // buttonBackgroundColor: const Color.fromARGB(255, 40, 38, 38),
+        // buttonBackgroundColor: Colors.transparent,
+        // buttonBackgroundColor: const Color.fromARGB(255, 68, 57, 57),
+        buttonBackgroundColor: const Color.fromARGB(255, 35, 67, 165),
+        color: const Color.fromARGB(255, 21, 27, 77),
+        // color: const Color.fromARGB(255, 35, 157, 165),
         animationDuration: const Duration(milliseconds: 300),
         items: const <Widget>[
           Icon(Icons.home, size: 26, color: Colors.white),
-          Icon(Icons.message, size: 26, color: Colors.white),
-          Icon(Icons.add, size: 26, color: Colors.white),
+          Icon(Icons.airplanemode_active, size: 26, color: Colors.white),
+          Icon(Icons.watch_later_sharp, size: 26, color: Colors.white),
+          Icon(Icons.settings_accessibility, size: 26, color: Colors.white),
           Icon(Icons.notifications, size: 26, color: Colors.white),
-          Icon(Icons.person, size: 26, color: Colors.white),
         ],
         onTap: (index) {
           setState(() {

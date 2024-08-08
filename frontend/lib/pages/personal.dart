@@ -72,10 +72,10 @@ class PersonalPageState extends State<PersonalPage> {
   String _getPisteName(String pisteID) {
     final piste = pistes.firstWhere(
       (piste) => piste['_id'] == pisteID,
-      orElse: () => {'pisteName': 'Unknown Piste'},
+      orElse: () => {'pisteName': 'Aucune Piste'},
     );
     return piste['pisteName'] ??
-        'Unknown Piste'; // Assurez-vous que 'nom' est la clé correcte
+        'Aucune Piste'; // Assurez-vous que 'nom' est la clé correcte
   }
   // ############################## ENDING  #################################//
 
@@ -99,27 +99,26 @@ class PersonalPageState extends State<PersonalPage> {
   }
   // ############################## ENDING #################################//
 
-
   // ############################## DELETING #################################//
   Future<void> _confirmDeleteMaintenance(String maintId) async {
     bool? confirmDelete = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
-          content: const Text('Are you sure you want to delete this vol?'),
+          title: const Text('⚠ Confirmation'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false); // Annuler la suppression
               },
-              child: const Text('Cancel'),
+              child: const Text('Annuler'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true); // Confirmer la suppression
               },
-              child: const Text('Delete'),
+              child: const Text('Suppremer'),
             ),
           ],
         );
@@ -128,18 +127,20 @@ class PersonalPageState extends State<PersonalPage> {
 
     if (confirmDelete == true) {
       _deleteMaintenance(maintId);
-      print(maintId);
+      // print(maintId);
     }
   }
 
   Future<void> _deleteMaintenance(String maintId) async {
     final response = await MaintenanceService.deleteMaintenance(maintId);
     if (response['success']) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vol deleted successfully')),
+        const SnackBar(content: Text('Suppression effectier avec succes ✅')),
       );
       _fetchMaintenance(); // Recharger la liste des vols après suppression
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(response['message'])),
       );
@@ -152,16 +153,16 @@ class PersonalPageState extends State<PersonalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Personal"),
+        title: const Text("Maintenance"),
       ),
       body: Column(
         children: [
-          // const Center(
-          //   child: Text("Add Page Coucou"),
-          // ),
+          const Center(
+            child: Text("Liste du maintenance"),
+          ),
           Expanded(
             child: maintenances.isEmpty
-                ? const Center(child: Text("No horaires available"))
+                ? const Center(child: Text("Aucune maintenance disponible"))
                 : ListView.builder(
                     itemCount: maintenances.length,
                     itemBuilder: (context, index) {
@@ -192,7 +193,8 @@ class PersonalPageState extends State<PersonalPage> {
                               color: Colors
                                   .red, // Couleur de l'icône de suppression
                               onPressed: () {
-                                _confirmDeleteMaintenance(maintenances[index]['_id']);
+                                _confirmDeleteMaintenance(
+                                    maintenances[index]['_id']);
                               },
                             ),
                           ],

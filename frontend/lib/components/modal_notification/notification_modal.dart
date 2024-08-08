@@ -112,7 +112,7 @@ class _NotificationModalState extends State<NotificationModal> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Annuler'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -134,7 +134,7 @@ class _NotificationModalState extends State<NotificationModal> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content:
-                                  Text('Notification added successfully!')),
+                                  Text('Notification ont été ajoutés avec succès ✅!!!')),
                         );
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context,
@@ -147,7 +147,7 @@ class _NotificationModalState extends State<NotificationModal> {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(content: Text('Les champs obligatoirement remplir ❌')),
                       );
                     }
 
@@ -155,7 +155,7 @@ class _NotificationModalState extends State<NotificationModal> {
                     // print(dateHeure);
                     // print(type);
                   },
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

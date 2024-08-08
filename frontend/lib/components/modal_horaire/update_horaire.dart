@@ -14,6 +14,7 @@ class UpdateHoraireModal extends StatefulWidget {
       required this.vols});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdateHoraireModalState createState() => _UpdateHoraireModalState();
 }
 
@@ -53,6 +54,7 @@ class _UpdateHoraireModalState extends State<UpdateHoraireModal> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay.now(),
       );
@@ -96,7 +98,7 @@ class _UpdateHoraireModalState extends State<UpdateHoraireModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Modifier un Vol',
+              'Modifier une Horaires',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
@@ -186,19 +188,22 @@ class _UpdateHoraireModalState extends State<UpdateHoraireModal> {
                           heureFin,
                           volID);
                       if (response['success']) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text('Vol updated successfully!')),
+                              content: Text('Mis a jour effectier avec succes ✅!!!')),
                         );
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, true);
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(response['message'])),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(content: Text('Les champs obligatoirement remplir ❌')),
                       );
                       // print(heureDebut);
                       // print(heureFin);
@@ -206,7 +211,7 @@ class _UpdateHoraireModalState extends State<UpdateHoraireModal> {
                       // print(pisteID);
                     }
                   },
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

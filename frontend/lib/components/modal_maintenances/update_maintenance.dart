@@ -10,6 +10,7 @@ class UpdateMaintenanceModal extends StatefulWidget {
       {super.key, required this.maintId, required this.pistes});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdateMaintenanceModalState createState() => _UpdateMaintenanceModalState();
 }
 
@@ -29,7 +30,7 @@ class _UpdateMaintenanceModalState extends State<UpdateMaintenanceModal> {
   Future<void> _fetchMaintenanceData() async {
     var maintenanceData =
         await MaintenanceService.getMaintenanceById(widget.maintId);
-    print(widget.maintId);
+    // print(widget.maintId);
     setState(() {
       _descriptionController.text = maintenanceData['description'] ?? '';
       _dateDebut = maintenanceData['dateDebut'] != null
@@ -53,6 +54,7 @@ class _UpdateMaintenanceModalState extends State<UpdateMaintenanceModal> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay.now(),
       );
@@ -96,7 +98,7 @@ class _UpdateMaintenanceModalState extends State<UpdateMaintenanceModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Modifier un Vol',
+              'Modifier un maintenance',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
@@ -173,7 +175,7 @@ class _UpdateMaintenanceModalState extends State<UpdateMaintenanceModal> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Annuler'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -198,19 +200,25 @@ class _UpdateMaintenanceModalState extends State<UpdateMaintenanceModal> {
                         description,
                       );
                       if (response['success']) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text('Vol updated successfully!')),
+                              content: Text(
+                                  'Mis a jour effectier avec succes ✅!!!!')),
                         );
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, true);
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(response['message'])),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(
+                            content:
+                                Text('Les champs obligatoirement remplir ❌')),
                       );
                       // print(widget.maintId);
                       // print(pisteID);
@@ -220,7 +228,7 @@ class _UpdateMaintenanceModalState extends State<UpdateMaintenanceModal> {
                       // print(description);
                     }
                   },
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

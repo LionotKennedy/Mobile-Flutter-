@@ -69,25 +69,28 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                Icons.lock,
-                size: 50,
+                Icons.lock_person,
+                size: 60,
+                 color: Color.fromARGB(255, 21, 27, 77),
               ),
+               const SizedBox(height: 15),
               Text(
-                'Welcome back you\'ve been missed!',
+                'Bienvenue de nouveau !',
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 16,
                 ),
               ),
+               const SizedBox(height: 15),
               MyTextField(
                 controller: usernameController,
-                hintText: 'Email',
+                hintText: 'Adresse email',
                 obscureText: false,
               ),
               const SizedBox(height: 10),
               MyTextField(
                 controller: passwordController,
-                hintText: 'Password',
+                hintText: 'Mot de passe',
                 obscureText: true,
               ),
               const SizedBox(height: 10),

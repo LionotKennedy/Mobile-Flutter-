@@ -23,7 +23,7 @@ class HoraireService {
       );
 
       if (response.statusCode == 200) {
-        return {'success': true, 'message': 'Horaire created successfully'};
+        return {'success': true, 'message': 'Horaire ont été ajoutés avec succès ✅!!'};
       } else {
         return {'success': false, 'message': 'Failed to create horaire'};
       }

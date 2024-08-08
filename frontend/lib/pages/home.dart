@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:application/components/modal_piste/piste_modal.dart'; // Assurez-vous que le chemin est correct
 import 'package:application/components/modal_piste/update_modal.dart'; // Assurez-vous que le chemin est correct
@@ -11,6 +10,7 @@ class Home extends StatefulWidget {
   const Home({super.key, required this.username});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeState createState() => _HomeState();
 }
 
@@ -71,20 +71,20 @@ class _HomeState extends State<Home> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
-          content: const Text('Are you sure you want to delete this piste?'),
+          title: const Text('⚠ Confirmation'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false); // Annuler la suppression
               },
-              child: const Text('Cancel'),
+              child: const Text('Annuler'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true); // Confirmer la suppression
               },
-              child: const Text('Delete'),
+              child: const Text('Supprimer'),
             ),
           ],
         );
@@ -99,11 +99,13 @@ class _HomeState extends State<Home> {
   Future<void> _deletePiste(String pisteId) async {
     final response = await PisteService.deletePiste(pisteId);
     if (response['success']) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Piste deleted successfully')),
+        const SnackBar(content: Text('Suppression effectier avec succes ✅!')),
       );
       _fetchPistes(); // Recharger les pistes après suppression
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(response['message'])),
       );
@@ -114,7 +116,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Liste du piste"),
       ),
       body: Center(
         child: Column(

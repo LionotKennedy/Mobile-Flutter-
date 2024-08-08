@@ -10,6 +10,7 @@ class HoraireModal extends StatefulWidget {
   const HoraireModal({super.key, required this.pistes});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HoraireModalState createState() => _HoraireModalState();
 }
 
@@ -44,6 +45,7 @@ class _HoraireModalState extends State<HoraireModal> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay.now(),
       );
@@ -87,7 +89,7 @@ class _HoraireModalState extends State<HoraireModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Ajouter un Horaires',
+              'Ajouter une Horaires',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
@@ -157,7 +159,7 @@ class _HoraireModalState extends State<HoraireModal> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Annuler'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -180,23 +182,26 @@ class _HoraireModalState extends State<HoraireModal> {
                       );
 
                       if (result['success']) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(result['message'])),
                         );
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, true);
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(result['message'])),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(content: Text('Les champs obligatoirement remplir ❌')),
                       );
                     }
                   },
 
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

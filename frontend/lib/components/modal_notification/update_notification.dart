@@ -27,7 +27,7 @@ class _UpdateNotificationModalState extends State<UpdateNotificationModal> {
   Future<void> _fetchMaintenanceData() async {
     var maintenanceData =
         await NotificationService.getNotificationById(widget.notiId);
-    print(widget.notiId);
+    // print(widget.notiId);
     setState(() {
       _messageController.text = maintenanceData['message'] ?? '';
       _dateHeure = maintenanceData['dateHeure'] != null
@@ -83,18 +83,11 @@ class _UpdateNotificationModalState extends State<UpdateNotificationModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Modifier un Vol',
+              'Modifier un notifications',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _messageController,
-              decoration: const InputDecoration(
-                labelText: 'Description de maintenance',
               ),
             ),
             const SizedBox(height: 20),
@@ -104,6 +97,13 @@ class _UpdateNotificationModalState extends State<UpdateNotificationModal> {
                 _dateHeure == null
                     ? 'Sélectionner l\'heure d\'arrivée prévue'
                     : 'Heure d\'arrivée prévue : ${DateFormat('yyyy-MM-dd HH:mm').format(_dateHeure!)}',
+              ),
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: _messageController,
+              decoration: const InputDecoration(
+                labelText: 'Description de maintenance',
               ),
             ),
             const SizedBox(height: 20),
@@ -132,7 +132,7 @@ class _UpdateNotificationModalState extends State<UpdateNotificationModal> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Annuler'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -152,15 +152,16 @@ class _UpdateNotificationModalState extends State<UpdateNotificationModal> {
                         message,
                         dateHeure,
                       );
-                        print(widget.notiId);
-                        print(type);
-                        print(message);
-                        print(dateHeure);
+                      // print(widget.notiId);
+                      // print(type);
+                      // print(message);
+                      // print(dateHeure);
                       if (response['success']) {
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text('Vol updated successfully!')),
+                              content: Text(
+                                  'Mis a jour effectier avec succes ✅!!!')),
                         );
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context, true);
@@ -172,11 +173,13 @@ class _UpdateNotificationModalState extends State<UpdateNotificationModal> {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(
+                            content:
+                                Text('Les champs obligatoirement remplir ❌')),
                       );
                     }
                   },
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

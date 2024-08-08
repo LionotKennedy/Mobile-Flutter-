@@ -28,20 +28,20 @@ class NotificationPageState extends State<NotificationsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
-          content: const Text('Are you sure you want to delete this vol?'),
+          title: const Text('⚠ Confirmation'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer??'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false); // Annuler la suppression
               },
-              child: const Text('Cancel'),
+              child: const Text('Annuler'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true); // Confirmer la suppression
               },
-              child: const Text('Delete'),
+              child: const Text('Suppremer'),
             ),
           ],
         );
@@ -50,7 +50,7 @@ class NotificationPageState extends State<NotificationsPage> {
 
     if (confirmDelete == true) {
       _deleteNotification(notiId);
-      print(notiId);
+      // print(notiId);
     }
   }
 
@@ -59,9 +59,9 @@ class NotificationPageState extends State<NotificationsPage> {
     if (response['success']) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vol deleted successfully')),
+        const SnackBar(content: Text('Suppression effectier avec succes ✅')),
       );
-     _fetchNotification(); // Recharger la liste des vols après suppression
+      _fetchNotification(); // Recharger la liste des vols après suppression
     } else {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
@@ -98,7 +98,8 @@ class NotificationPageState extends State<NotificationsPage> {
     );
 
     if (result == true) {
-        _fetchNotification();; // Recharger la liste des horaires après ajout
+      _fetchNotification();
+// Recharger la liste des horaires après ajout
     }
   }
   // ############################## ENDING #################################//
@@ -164,7 +165,8 @@ class NotificationPageState extends State<NotificationsPage> {
                           color:
                               Colors.red, // Couleur de l'icône de suppression
                           onPressed: () {
-                            _confirmDeleteNotification(notifications[index]['_id']);
+                            _confirmDeleteNotification(
+                                notifications[index]['_id']);
                           },
                         ),
                       ],

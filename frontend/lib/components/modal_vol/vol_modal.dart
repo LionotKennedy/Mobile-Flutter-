@@ -9,6 +9,7 @@ class VolModal extends StatefulWidget {
   const VolModal({super.key, required this.pistes});
 
   @override
+  // ignore: library_private_types_in_public_api
   _VolModalState createState() => _VolModalState();
 }
 
@@ -30,6 +31,7 @@ class _VolModalState extends State<VolModal> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay.now(),
       );
@@ -129,7 +131,7 @@ class _VolModalState extends State<VolModal> {
                 });
               },
               decoration: const InputDecoration(
-                labelText: 'Statut',
+                labelText: 'Status',
               ),
             ),
             const SizedBox(height: 20),
@@ -145,7 +147,7 @@ class _VolModalState extends State<VolModal> {
                 setState(() {
                   selectedPisteId = newValue;
                 });
-                print('Selected Piste ID: $newValue'); // Imprime l'ID de la piste sélectionnée
+                // print('Selected Piste ID: $newValue'); // Imprime l'ID de la piste sélectionnée
               },
               decoration: const InputDecoration(
                 labelText: 'Piste assignée',
@@ -159,7 +161,7 @@ class _VolModalState extends State<VolModal> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Annuler'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -184,22 +186,25 @@ class _VolModalState extends State<VolModal> {
                           status,
                           pisteAssignee);
                       if (response['success']) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Vol added successfully!')),
+                          const SnackBar(content: Text('Vol ont été ajoutés avec succès ✅!!')),
                         );
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, true); // Retourne true si ajouté avec succès
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(response['message'])),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(content: Text('Les champs obligatoirement remplir ❌')),
                       );
                     }
                   },
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

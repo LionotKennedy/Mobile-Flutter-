@@ -8,6 +8,7 @@ class MainteModal extends StatefulWidget {
   const MainteModal({super.key, required this.pistes});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MainteModalState createState() => _MainteModalState();
 }
 
@@ -28,6 +29,7 @@ class _MainteModalState extends State<MainteModal> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay.now(),
       );
@@ -137,8 +139,7 @@ class _MainteModalState extends State<MainteModal> {
                 setState(() {
                   selectedPisteId = newValue;
                 });
-                print(
-                    'Selected Piste ID: $newValue'); // Imprime l'ID de la piste sélectionnée
+                // print('Selected Piste ID: $newValue'); // Imprime l'ID de la piste sélectionnée
               },
               decoration: const InputDecoration(
                 labelText: 'Piste assignée',
@@ -152,7 +153,7 @@ class _MainteModalState extends State<MainteModal> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Annuler'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -175,30 +176,33 @@ class _MainteModalState extends State<MainteModal> {
                           description,
                           );
                       if (response['success']) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content:
-                                  Text('Maintenances added successfully!')),
+                                  Text('Maintenances ont été ajoutés avec succès ✅!!')),
                         );
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context,
                             true); // Retourne true si ajouté avec succès
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(response['message'])),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(content: Text('Les champs obligatoirement remplir ❌')),
                       );
                     }
-                      print(description);
-                      print(dateDebut);
-                      print(dateFin);
-                      print(typeMaintenance);
-                      print(pisteID);
+                      // print(description);
+                      // print(dateDebut);
+                      // print(dateFin);
+                      // print(typeMaintenance);
+                      // print(pisteID);
                   },
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

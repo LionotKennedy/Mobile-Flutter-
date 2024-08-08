@@ -11,6 +11,7 @@ class UpdateVolModal extends StatefulWidget {
   const UpdateVolModal({super.key, required this.volId, required this.pistes});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdateVolModalState createState() => _UpdateVolModalState();
 }
 
@@ -54,6 +55,7 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay.now(),
       );
@@ -181,7 +183,7 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Annuler'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -207,22 +209,25 @@ class _UpdateVolModalState extends State<UpdateVolModal> {
                           status,
                           pisteAssignee);
                       if (response['success']) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Vol updated successfully!')),
+                          const SnackBar(content: Text('Mis a jour effectier avec succes ✅!!')),
                         );
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, true);
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(response['message'])),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+                        const SnackBar(content: Text('Les champs obligatoirement remplir ❌')),
                       );
                     }
                   },
-                  child: const Text('Save'),
+                  child: const Text('Enregistrer'),
                 ),
               ],
             ),

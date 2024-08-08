@@ -44,7 +44,7 @@ class AddPageState extends State<AddPage> {
 
   Future<void> _fetchHoraires() async {
     List<dynamic> fetchedHoraires = await HoraireService.getHoraire();
-    print('Fetched horaires: $fetchedHoraires'); // Ajoutez ceci pour déboguer
+    // print('Fetched horaires: $fetchedHoraires'); // Ajoutez ceci pour déboguer
     setState(() {
       horaires = fetchedHoraires;
     });
@@ -89,20 +89,20 @@ class AddPageState extends State<AddPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
-          content: const Text('Are you sure you want to delete this vol?'),
+          title: const Text('⚠ Confirmation'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false); // Annuler la suppression
               },
-              child: const Text('Cancel'),
+              child: const Text('Annuler'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true); // Confirmer la suppression
               },
-              child: const Text('Delete'),
+              child: const Text('Suppremer'),
             ),
           ],
         );
@@ -111,18 +111,20 @@ class AddPageState extends State<AddPage> {
 
     if (confirmDelete == true) {
       _deleteHoraire(hourId);
-      print(hourId);
+      // print(hourId);
     }
   }
 
   Future<void> _deleteHoraire(String hourId) async {
     final response = await HoraireService.deleteHoraire(hourId);
     if (response['success']) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vol deleted successfully')),
+        const SnackBar(content: Text('Suppression effectier avec succes ✅')),
       );
       _fetchHoraires(); // Recharger la liste des vols après suppression
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(response['message'])),
       );
@@ -159,16 +161,16 @@ class AddPageState extends State<AddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add"),
+        title: const Text("Horaires"),
       ),
       body: Column(
         children: [
           const Center(
-            child: Text("Add Page Coucou"),
+            child: Text("Liste de horaire"),
           ),
           Expanded(
             child: horaires.isEmpty
-                ? const Center(child: Text("No horaires available"))
+                ? const Center(child: Text("Aucune horaires disponible"))
                 : ListView.builder(
                     itemCount: horaires.length,
                     itemBuilder: (context, index) {
